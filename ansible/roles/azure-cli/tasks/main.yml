@@ -1,0 +1,38 @@
+---
+- name: Install python3-apt
+  ansible.builtin.apt:
+    name: python3-apt
+    state: present
+    force_apt_get: yes
+    update_cache: yes
+
+- name: Installing pre reqs for azure-cli
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - curl
+      - ca-certificates
+      - lsb-release
+      - gnupg
+    state: "present"
+    force_apt_get: yes
+
+- name: Add microsoft apt repository key.
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+    dest: /etc/apt/trusted.gpg.d/microsoft.asc
+    mode: '0644'
+    force: true
+
+- name: Add azure-cli repo
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ {{ ansible_lsb['codename'] }} main"
+    state: present
+    update_cache: yes
+
+- name: Installing azure-cli
+  ansible.builtin.apt:
+    name: azure-cli
+    state: present
+    force_apt_get: yes
+    update_cache: yes

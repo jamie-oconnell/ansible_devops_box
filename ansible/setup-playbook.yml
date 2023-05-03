@@ -1,0 +1,11 @@
+- name: Setup devops box
+  hosts: all
+
+  roles:
+    - azure-cli
+    - standard-packages
+    - packer
+    - terraform
+    - pwsh
+    - pip
+    - ansible_pip

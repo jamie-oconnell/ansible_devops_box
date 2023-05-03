@@ -1,0 +1,26 @@
+---
+- name: Install pre reqs
+  ansible.builtin.apt:
+    pkg:
+    - apt-transport-https
+    - software-properties-common
+    state: present
+    update_cache: yes
+
+- name: Add microsoft apt repository key.
+  ansible.builtin.get_url:
+    url: "https://packages.microsoft.com/keys/microsoft.asc"
+    dest: /etc/apt/trusted.gpg.d/microsoft.asc
+    mode: '0644'
+
+- name: Add powershell apt repo
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://packages.microsoft.com/ubuntu/{{ansible_distribution_version}}/prod {{ ansible_lsb['codename'] }} main"
+    filename: "microsoft_{{ansible_distribution_version}}_{{ ansible_lsb['codename'] }}_main"
+    state: present
+    update_cache: yes
+
+- name: Install powershell 
+  apt: 
+    name: powershell
+    update_cache: yes

@@ -1,0 +1,10 @@
+---
+- name: Install mkisofs, nmap, zip, unzip, jq
+  ansible.builtin.apt:
+    pkg:
+    - mkisofs
+    - nmap
+    - zip
+    - unzip
+    - jq
+    state: present
