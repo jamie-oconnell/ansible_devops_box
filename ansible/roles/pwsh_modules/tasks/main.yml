@@ -1,0 +1,10 @@
+- name: Install powershell Modules
+  include_tasks: pwsh_modules.yml
+  vars:
+    powershell_modules: 
+      - name: VMware.PowerCLI
+        scope: AllUsers
+        state: present
+      - name: Az
+        scope: AllUsers
+        state: present

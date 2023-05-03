@@ -7,5 +7,6 @@
     - packer
     - terraform
     - pwsh
+    - pwsh_modules
     - pip
     - ansible_pip
