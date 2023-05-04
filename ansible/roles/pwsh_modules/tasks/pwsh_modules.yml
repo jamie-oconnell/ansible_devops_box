@@ -1,26 +1,16 @@
 ---
-- name: Capturing Installed Modules
+- name: Capturing Installed User Modules
   shell: pwsh -c "Get-Module -ListAvailable | Select-Object Name | ft -hidetableheaders"
   register: _powershell_installed_modules_currentuser
   changed_when: false
 
-- name: Capturing Installed Modules
+- name: Capturing Installed Global Modules
   shell: pwsh -c "Get-Module -ListAvailable | Select-Object Name | ft -hidetableheaders"
   become: true
   register: _powershell_installed_modules_allusers
   changed_when: false
 
-- name: Installing Modules
-  shell: pwsh -c "Install-Module -Name {{ item['name'] }} -Scope AllUsers -Force"
-  become: true
-  with_items: "{{ powershell_modules }}"
-  when: >
-    powershell_modules != [] and
-    (item['name'] not in _powershell_installed_modules_allusers['stdout'] and
-    item['state']|lower == "present" and
-    item['scope']|lower == "allusers")
-
-- name: Installing Modules
+- name: Installing User Modules
   shell: pwsh -c "Install-Module -Name {{ item['name'] }} -Scope CurrentUser -Force"
   become: false
   with_items: "{{ powershell_modules }}"
@@ -29,4 +19,14 @@
     (item['name'] not in _powershell_installed_modules_currentuser['stdout'] and
     item['state']|lower == "present" and
     item['scope']|lower == "currentuser")
+
+- name: Installing Global Modules
+  shell: pwsh -c "Install-Module -Name {{ item['name'] }} -Scope AllUsers -Force"
+  become: true
+  with_items: "{{ powershell_modules }}"
+  when: >
+    powershell_modules != [] and
+    (item['name'] not in _powershell_installed_modules_allusers['stdout'] and
+    item['state']|lower == "present" and
+    item['scope']|lower == "allusers")
 

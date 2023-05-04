@@ -2,9 +2,24 @@
   include_tasks: pwsh_modules.yml
   vars:
     powershell_modules: 
+      - name: PowerShellGet
+        scope: AllUsers
+        state: present
       - name: VMware.PowerCLI
         scope: AllUsers
         state: present
       - name: Az
+        scope: AllUsers
+        state: present
+      - name: Cisco.IMC
+        scope: AllUsers
+        state: present
+      - name: Cisco.UCS.Common
+        scope: AllUsers
+        state: present
+      - name: Microsoft.Graph
+        scope: AllUsers
+        state: present
+      - name: MicrosoftTeams
         scope: AllUsers
         state: present
