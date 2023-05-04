@@ -12,6 +12,7 @@
     url: "https://packages.microsoft.com/keys/microsoft.asc"
     dest: /etc/apt/trusted.gpg.d/microsoft.asc
     mode: '0644'
+    force: true
 
 - name: Add powershell apt repo
   ansible.builtin.apt_repository:
