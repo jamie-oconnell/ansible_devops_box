@@ -10,3 +10,4 @@
     - pwsh_modules
     - pip
     - ansible_pip
+    - kubectl

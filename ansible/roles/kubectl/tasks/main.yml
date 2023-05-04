@@ -1,0 +1,28 @@
+- name: Install pre reqs for kubectl
+  ansible.builtin.apt:
+    pkg:
+      - apt-transport-https
+      - ca-certificates
+    state: "present"
+    force_apt_get: yes
+
+- name: Add google apt repository key.
+  ansible.builtin.get_url:
+    url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg.asc"
+    dest: /etc/apt/trusted.gpg.d/google.asc
+    mode: '0644'
+    force: true
+
+- name: Add kubernetes repo
+  ansible.builtin.apt_repository:
+    repo: "deb [signed-by=/etc/apt/trusted.gpg.d/google.asc] https://apt.kubernetes.io/ kubernetes-xenial main"
+    filename: "kubernetes"
+    state: present
+    update_cache: yes
+
+- name: Installing kubectl
+  ansible.builtin.apt:
+    name: kubectl
+    state: present
+    force_apt_get: yes
+    update_cache: yes
